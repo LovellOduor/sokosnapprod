@@ -109,9 +109,10 @@ document.getElementById('uploadPhoto').onchange = function (evt) {
         photoEditCanvasContext.translate(photoEditImage.width, 0);
         photoEditCanvasContext.scale(-1,1);
         photoEditCanvasContext.drawImage(photoEditImage,0,0,photoEditImage.width,photoEditImage.height);
-        var canvasImage = photoEditCanvas.toDataURL();
+        var canvasImage = photoEditCanvas.toDataURL('image/jpeg',0.1);
+        console.log(canvasImage);
         material = new THREE.MeshPhongMaterial({ depthTest: false });
-        material.map = new THREE.TextureLoader().load(canvasImage);
+        material.map = new THREE.TextureLoader().load(photoEditCanvas.toDataURL());
         plane.material = material;
         photoLoaded = true;
         setup();
