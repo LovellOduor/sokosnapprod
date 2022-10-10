@@ -115,20 +115,6 @@ document.getElementById('uploadPhoto').onchange = function (evt) {
         material.map = new THREE.TextureLoader().load(photoEditCanvas.toDataURL());
         plane.material = material;
         photoLoaded = true;
-        root.traverse((child)=>{
-          if(child.isMesh){ 
-            console.log(child.name);
-            if (child.material.isMaterial){
-            if (child.material.map) child.material.map.encoding = THREE.sRGBEncoding;
-            if (child.material.emissiveMap) material.emissiveMap.encoding = THREE.sRGBEncoding;
-            child.material.envMap = envMap;
-            child.material.metalness = 0.6;
-                 child.material.roughness = 0.1;
-                 child.material.envMap = envMap;
-                 child.material.needsUpdate = true;
-            }
-        }
-        });
         setup();
       }
 
@@ -184,9 +170,6 @@ function load3DModels(){
   drlight = new THREE.DirectionalLight('white', 4);
   drlight.castShadows = false;
   drlight.position.set(0, 55, 20);
-// load environment map
-envMapLoader = new THREE.CubeTextureLoader();
-envMap = envMapLoader.load(urls);
 
   // Occluding sphere
   omaterial = new THREE.MeshBasicMaterial({ color: 'white' });
@@ -225,7 +208,11 @@ envMap = envMapLoader.load(urls);
   });
   root.renderOrder = 2;
  });
-   
+
+   // load environment map
+   envMapLoader = new THREE.CubeTextureLoader();
+   envMap = envMapLoader.load(urls);
+
    // Create renderer
    renderer = new THREE.WebGLRenderer({ alpha: false, antialias: true });
 
