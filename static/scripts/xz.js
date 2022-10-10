@@ -115,6 +115,8 @@ document.getElementById('uploadPhoto').onchange = function (evt) {
         material.map = new THREE.TextureLoader().load(photoEditCanvas.toDataURL());
         plane.material = material;
         photoLoaded = true;
+        root.material.envMap = envMap;
+        root.material.needsUpdate = true;
         setup();
       }
 
