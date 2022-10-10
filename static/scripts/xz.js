@@ -115,8 +115,20 @@ document.getElementById('uploadPhoto').onchange = function (evt) {
         material.map = new THREE.TextureLoader().load(photoEditCanvas.toDataURL());
         plane.material = material;
         photoLoaded = true;
-        root.material.envMap = envMap;
-        root.material.needsUpdate = true;
+        root.traverse((child)=>{
+          if(child.isMesh){ 
+            console.log(child.name);
+            if (child.material.isMaterial){
+            if (child.material.map) child.material.map.encoding = THREE.sRGBEncoding;
+            if (child.material.emissiveMap) material.emissiveMap.encoding = THREE.sRGBEncoding;
+            child.material.envMap = envMap;
+            child.material.metalness = 0.6;
+                 child.material.roughness = 0.1;
+                 child.material.envMap = envMap;
+                 child.material.needsUpdate = true;
+            }
+        }
+        });
         setup();
       }
 
