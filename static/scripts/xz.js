@@ -170,6 +170,9 @@ function load3DModels(){
   drlight = new THREE.DirectionalLight('white', 4);
   drlight.castShadows = false;
   drlight.position.set(0, 55, 20);
+// load environment map
+envMapLoader = new THREE.CubeTextureLoader();
+envMap = envMapLoader.load(urls);
 
   // Occluding sphere
   omaterial = new THREE.MeshBasicMaterial({ color: 'white' });
@@ -208,11 +211,7 @@ function load3DModels(){
   });
   root.renderOrder = 2;
  });
-
-   // load environment map
-   envMapLoader = new THREE.CubeTextureLoader();
-   envMap = envMapLoader.load(urls);
-
+   
    // Create renderer
    renderer = new THREE.WebGLRenderer({ alpha: false, antialias: true });
 
