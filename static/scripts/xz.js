@@ -169,6 +169,7 @@ function load3DModels(){
   envMap = new THREE.CubeTextureLoader().load(urls);
   envMap.format = THREE.RGBFormat;
 
+  var envmaterial = new THREE.MeshBasicMaterial({ envMap: envMap });
    // lights
   //scene.add( new THREE.AmbientLight(0xFFFFFF));
   drlight = new THREE.DirectionalLight('white', 4);
@@ -200,12 +201,14 @@ function load3DModels(){
       if (child.material.isMaterial){
       if (child.material.map) child.material.map.encoding = THREE.sRGBEncoding;
       if (child.material.emissiveMap) material.emissiveMap.encoding = THREE.sRGBEncoding;
-      child.material.envMap = envMap;
-    
+     // child.material.envMap = envMap;
+      child.material = envmaterial;
+      /*
       child.material.metalness = 0.6;
            child.material.roughness = 0.1;
            child.material.envMap = envMap;
            child.material.needsUpdate = true;
+           */
       }
 
   }
