@@ -19,13 +19,13 @@
 <body>
     <nav class="navbar is-dark ">
         <div class="navbar-brand">
-            
+            <span id="backButton" class="button is-dark material-icons">
+                arrow_back_ios
+            </span>
+            <a href="/" class="navbar-item"><strong>SokoSnap</strong></a>
+
             <div class="navbar-start">
-                <span id="backButton" class="button is-dark material-icons">
-                    arrow_back_ios
-                </span>
-                <a href="/" class="navbar-item"><strong>SokoSnap</strong></a>
-                <form method="get" action="{% url 'search'%}">
+                <!--form method="get" action="{% url 'search'%}">
                     <div class="field has-addons">
                         <div class="control">
                             <input class="input is-rounded" type="text" name="query" placeholder="Search">
@@ -36,7 +36,7 @@
                             </span>
                    
                     </div>
-                </form>
+                </form-->
             </div>
 
             <a role="button" class="navbar-burger"
