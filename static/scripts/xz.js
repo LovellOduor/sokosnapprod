@@ -156,7 +156,6 @@ var camera;
 var renderer;
 var root;
 var occluder;
-let envMapLoader;
 var envMap;
 var canvcontainer;
 var drlight;
@@ -165,6 +164,11 @@ var oader;
 var goader;
 
 function load3DModels(){
+
+  // load environment map
+  envMap = new THREE.CubeTextureLoader().load(urls);
+  envMap.format = THREE.RGBFormat;
+
    // lights
   //scene.add( new THREE.AmbientLight(0xFFFFFF));
   drlight = new THREE.DirectionalLight('white', 4);
@@ -209,10 +213,7 @@ function load3DModels(){
   root.renderOrder = 2;
  });
 
-   // load environment map
-   envMapLoader = new THREE.CubeTextureLoader();
-   envMap = envMapLoader.load(urls);
-
+   
    // Create renderer
    renderer = new THREE.WebGLRenderer({ alpha: false, antialias: true });
 
