@@ -167,9 +167,8 @@ function load3DModels(){
 
   // load environment map
   envMap = new THREE.CubeTextureLoader().load(urls);
-  envMap.format = THREE.RGBFormat;
+  envMap.format = THREE.RGBAFormat;
 
-  var envmaterial = new THREE.MeshBasicMaterial({ envMap: envMap });
    // lights
   //scene.add( new THREE.AmbientLight(0xFFFFFF));
   drlight = new THREE.DirectionalLight('white', 4);
@@ -192,6 +191,8 @@ function load3DModels(){
   });
 
   // Import the glasses  
+  let envmaterial = new THREE.MeshPhysicalMaterial({ envMap: envMap });
+
   goader = new THREE.GLTFLoader();
   goader.load(modelfile,(gltf)=>{
     root = gltf.scene;
@@ -202,7 +203,13 @@ function load3DModels(){
       if (child.material.map) child.material.map.encoding = THREE.sRGBEncoding;
       if (child.material.emissiveMap) material.emissiveMap.encoding = THREE.sRGBEncoding;
      // child.material.envMap = envMap;
-      child.material = envmaterial;
+     child.material.envMap = envMap;
+     child.material.clearCoat = 1;
+     child.material.envMapIntensity = 2;
+     child.material.normalScale = new THREE.Vector2(1);
+     child.material.clearcoatNormalScale = new THREE.Vector2(0.3);
+     child.material.needsUpdate = true;
+
       /*
       child.material.metalness = 0.6;
            child.material.roughness = 0.1;
