@@ -166,8 +166,39 @@ var goader;
 function load3DModels(){
 
   // load environment map
-  envMap = new THREE.CubeTextureLoader().load(urls);
-  envMap.format = THREE.RGBAFormat;
+  envMap = new THREE.CubeTextureLoader().load(urls,()=>{
+    envMap.format = THREE.RGBAFormat;
+
+    goader = new THREE.GLTFLoader();
+    goader.load(modelfile,(gltf)=>{
+      root = gltf.scene;
+      root.traverse((child)=>{
+      if(child.isMesh){ 
+        console.log(child.name);
+        if (child.material.isMaterial){
+        if (child.material.map) child.material.map.encoding = THREE.sRGBEncoding;
+        if (child.material.emissiveMap) material.emissiveMap.encoding = THREE.sRGBEncoding;
+       // child.material.envMap = envMap;
+       child.material.envMap = envMap;
+       child.material.envMapIntensity = 2;
+       child.material.normalScale = new THREE.Vector2(1);
+       child.material.clearcoatNormalScale = new THREE.Vector2(0.3);
+       child.material.needsUpdate = true;
+  
+        /*
+        child.material.metalness = 0.6;
+             child.material.roughness = 0.1;
+             child.material.envMap = envMap;
+             child.material.needsUpdate = true;
+             */
+        }
+  
+    }
+    });
+    root.renderOrder = 2;
+   });
+  
+  });
 
    // lights
   //scene.add( new THREE.AmbientLight(0xFFFFFF));
@@ -190,40 +221,6 @@ function load3DModels(){
     occluder.renderOrder = 1;
   });
 
-  // Import the glasses  
-  let envmaterial = new THREE.MeshPhysicalMaterial({ envMap: envMap });
-
-  goader = new THREE.GLTFLoader();
-  goader.load(modelfile,(gltf)=>{
-    root = gltf.scene;
-    root.traverse((child)=>{
-    if(child.isMesh){ 
-      console.log(child.name);
-      if (child.material.isMaterial){
-      if (child.material.map) child.material.map.encoding = THREE.sRGBEncoding;
-      if (child.material.emissiveMap) material.emissiveMap.encoding = THREE.sRGBEncoding;
-     // child.material.envMap = envMap;
-     child.material.envMap = envMap;
-     child.material.clearCoat = 1;
-     child.material.envMapIntensity = 2;
-     child.material.normalScale = new THREE.Vector2(1);
-     child.material.clearcoatNormalScale = new THREE.Vector2(0.3);
-     child.material.needsUpdate = true;
-
-      /*
-      child.material.metalness = 0.6;
-           child.material.roughness = 0.1;
-           child.material.envMap = envMap;
-           child.material.needsUpdate = true;
-           */
-      }
-
-  }
-  });
-  root.renderOrder = 2;
- });
-
-   
    // Create renderer
    renderer = new THREE.WebGLRenderer({ alpha: false, antialias: true });
 
