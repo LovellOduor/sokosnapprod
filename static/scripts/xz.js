@@ -8,16 +8,17 @@ var deviceRatio = 0.5;
 
 // Setup back navigation
 var backButton = document.getElementById("backButton");
-backButton.addEventListener("click",()=>{
-scene = null;
-window.history.back();
-});
-
+backButton.addEventListener("click",
+()=>{
+  scene = null;
+  window.history.back();
+}
+);
 
 // media query for setting the canvas size based on the device screen width
 var deviceMaxWidth = window.matchMedia("(max-width: 700px)");
 if(deviceMaxWidth.matches){
-  deviceRatio = 0.8;
+  deviceRatio = 1;
 }else{
   deviceRatio = 0.5;
 }
@@ -117,7 +118,7 @@ document.getElementById('uploadPhoto').onchange = function (evt) {
         photoEditCanvasContext.translate(photoEditImage.width, 0);
         photoEditCanvasContext.scale(-1,1);
         photoEditCanvasContext.drawImage(photoEditImage,0,0,photoEditImage.width,photoEditImage.height);
-        var canvasImage = photoEditCanvas.toDataURL('image/jpeg',0.1);
+        var canvasImage = photoEditCanvas.toDataURL('image/jpeg',0.4);
         console.log(canvasImage);
         material = new THREE.MeshPhongMaterial({ depthTest: false });
         material.map = new THREE.TextureLoader().load(photoEditCanvas.toDataURL());
@@ -175,9 +176,10 @@ function load3DModels(){
 
   // load environment map
   envMap = new THREE.CubeTextureLoader().load(urls,()=>{
-    envMap.format = THREE.RGBAFormat;
+    envMap.format = THREE.RGBAFormat;  
+  });
 
-    goader = new THREE.GLTFLoader();
+  goader = new THREE.GLTFLoader();
     goader.load(modelfile,(gltf)=>{
       root = gltf.scene;
       root.traverse((child)=>{
@@ -198,14 +200,12 @@ function load3DModels(){
              child.material.roughness = 0.1;
              child.material.envMap = envMap;
              child.material.needsUpdate = true;
-             */
+        */
         }
     }
     });
     root.renderOrder = 2;
    });
-  
-  });
 
    // lights
   //scene.add( new THREE.AmbientLight(0xFFFFFF));
@@ -220,9 +220,9 @@ function load3DModels(){
     occluder = gltf.scene;
     occluder.traverse((child) => {
       if (child.isMesh) {
-        child.material = omaterial;
-        child.renderOrder = 1;
-        child.material.colorWrite = false;
+         child.material = omaterial;
+         child.renderOrder = 1;
+         child.material.colorWrite = false;
       }
     });
     occluder.renderOrder = 1;
