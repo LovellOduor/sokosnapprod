@@ -179,17 +179,12 @@ function load3DModels(){
         if (child.material.map) child.material.map.encoding = THREE.sRGBEncoding;
         if (child.material.emissiveMap) material.emissiveMap.encoding = THREE.sRGBEncoding;
        // child.material.envMap = envMap;
-       let physicalMat = new THREE.MeshPhysicalMaterial({envMap:envMap});
-       physicalMat.map = child.material.map;
-       physicalMat.transmission = child.material.transmission
-       physicalMat.color = child.material.color;
-       physicalMat.envMapIntensity = 2;
-       physicalMat.roughness = child.material.roughness;
-       physicalMat.normalScale = new THREE.Vector2(1);
-       physicalMat.clearcoatNormalScale = new THREE.Vector2(0.3);
-       child.material = physicalMat;
-       child.material.needsUpdate = true;
-
+    
+       let envmat = new THREE.MeshBasicMaterial({envMap:envMap,transparent:1,reflectivity:1,combine:THREE.MultiplyOperation});
+       envmat.map = child.material.map;
+       envmat.color = child.material.color;  
+       envmat.opacity = child.material.opacity;    
+       child.material = envmat;
         /*
         child.material.metalness = 0.6;
              child.material.roughness = 0.1;
