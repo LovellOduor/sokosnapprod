@@ -17,7 +17,7 @@ window.history.back();
 // media query for setting the canvas size based on the device screen width
 var deviceMaxWidth = window.matchMedia("(max-width: 700px)");
 if(deviceMaxWidth.matches){
-  deviceRatio = 1;
+  deviceRatio = 0.8;
 }else{
   deviceRatio = 0.5;
 }
@@ -73,7 +73,9 @@ async function uploadPhoto(url = '', data = {}) {
   setPhotoMode();
   loader.start();
   // Default options are marked with *
-  const response = await fetch(url, {
+  let response;
+  try{
+    response = await fetch(url, {
     method: 'POST', // *GET, POST, PUT, DELETE, etc.
     mode: 'cors', // no-cors, *cors, same-origin
     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
@@ -86,6 +88,12 @@ async function uploadPhoto(url = '', data = {}) {
     referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
     body: JSON.stringify(data) // body data type must match "Content-Type" header
   });
+  }catch(e){
+    alert(e.message);
+    alert("If the error persists please contact us");
+    console.log(e);
+  }
+
   return response.json(); // parses JSON response into native JavaScript objects
 }
 
@@ -192,7 +200,6 @@ function load3DModels(){
              child.material.needsUpdate = true;
              */
         }
-  
     }
     });
     root.renderOrder = 2;
