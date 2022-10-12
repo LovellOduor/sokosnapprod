@@ -131,8 +131,16 @@ document.getElementById('uploadPhoto').onchange = function (evt) {
       fr.onload = ()=>{
           image_data = {image_data:fr.result};        
           uploadPhoto("/faceapi/",image_data).then((data)=>{
-          results = JSON.parse(data);
-          photoEditImage.src = fr.result;    
+            try{
+            results = JSON.parse(data);
+            
+            }catch(e){
+              alert("Please upload a photo, no face was detected");
+              setPhotoMode();
+              console.log(e);
+            }
+          photoEditImage.src = fr.result;  
+          
        });  
       }
   }else{
